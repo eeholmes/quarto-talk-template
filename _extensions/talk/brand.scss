@@ -1,0 +1,67 @@
+/*-- scss:defaults --*/
+
+// ---------------------------------------------------------------------------
+// brand.scss — every colour and font in the talk theme.
+//
+// This is the ONLY file a branded variant (e.g. nmfs-opensci/quarto-talk-template)
+// replaces. talk.scss uses these variables and nothing else, so a deck written
+// for one variant renders in the other by changing `format:`.
+// Keep figure colours in step with talk_style.py.
+// ---------------------------------------------------------------------------
+
+// Neutrals
+$talk-ink:        #17212B;   // body text
+$talk-ink-soft:   #4A5563;   // secondary text, captions
+$talk-muted:      #6B7684;   // footers, slide numbers
+$talk-rule:       #DCE1E7;   // hairlines, table rules
+$talk-wash:       #F3F5F8;   // code blocks, callout fill
+$talk-bg:         #FFFFFF;
+
+// Accent: one deep teal, one warm highlight
+$talk-accent:       #006D82;  // links, title rule, emphasis (AA on white)
+$talk-accent-soft:  #E3F1F3;  // tinted panels
+$talk-highlight:    #C25E14;  // sparing: one word or number per slide
+
+// Section / closing slides (also set talk-dark-bg in _extension.yml to the same value)
+$talk-section-bg:   #0F1C26;
+$talk-section-ink:  #FFFFFF;
+$talk-section-rule: #4FB3C4;
+
+// Type
+$talk-font-text:    "Inter", "Helvetica Neue", Arial, sans-serif;
+$talk-font-heading-sans:  "Inter Display", "Inter", "Helvetica Neue", Arial, sans-serif;
+$talk-font-heading-serif: "Source Serif 4 Display", "Source Serif 4", Georgia, "Times New Roman", serif;
+// Default heading face; a deck overrides it with `headings: serif` or `headings: sans`.
+$talk-headings-default: sans;
+$talk-font-mono:    "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+// Map onto Quarto/reveal variables
+$body-bg: $talk-bg;
+$body-color: $talk-ink;
+$link-color: $talk-accent;
+$selection-bg: $talk-accent-soft;
+$font-family-sans-serif: $talk-font-text;
+$font-family-monospace: $talk-font-mono;
+$presentation-font-size-root: 34px;
+$presentation-line-height: 1.4;
+$presentation-heading-font: var(--talk-font-heading);
+$presentation-heading-color: $talk-ink;
+$presentation-heading-font-weight: 600;
+$presentation-heading-text-transform: none;
+$presentation-heading-letter-spacing: var(--talk-heading-tracking);
+$presentation-heading-line-height: 1.15;
+$presentation-h1-font-size: 2.4em;
+$presentation-h2-font-size: 1.55em;
+$presentation-h3-font-size: 1.15em;
+$presentation-h4-font-size: 1em;
+$code-block-bg: $talk-wash;
+$code-block-border-color: $talk-rule;
+$code-block-font-size: 0.62em;
+$code-color: $talk-ink;
+$code-bg: $talk-wash;
+$presentation-title-slide-text-align: left;
+$callout-color-note: $talk-accent;
+$callout-color-tip: #42A35E;
+$callout-color-important: $talk-highlight;
+$callout-color-caution: #9C7A00;
+$callout-color-warning: #C2417A;
