@@ -7,6 +7,12 @@
 /_site/
 /.quarto/
 /*.pdf
+# ...and the same for decks and posters one folder down (poster/, talk folders)
+/*/*.html
+/*/*_files/
+/*/talk-fonts/
+/*/*.pdf
+/*/*.typ
 
 # Python
 __pycache__/

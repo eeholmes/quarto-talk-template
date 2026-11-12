@@ -1,0 +1,105 @@
+---
+title: "A poster title that states the main finding in one line"
+author:
+  - name: Eli Holmes
+    affiliations:
+      - ref: noaa
+      - ref: uw
+  - name: Co-author Two
+    affiliations:
+      - ref: uw
+  - name: Co-author Three
+    affiliations:
+      - ref: other
+affiliations:
+  - id: noaa
+    name: NOAA Fisheries
+  - id: uw
+    name: University of Washington
+  - id: other
+    name: Another Institution
+qr-url: "https://github.com/eeholmes/quarto-talk-template"   # scripts/qr_code.py makes figures/qr_code.svg from this
+qr: figures/qr_code.svg
+qr-caption: github.com/eeholmes/quarto-talk-template
+poster-footer: "Meeting name · Session · Poster board · Contact: name@example.org"
+code-base-url: https://github.com/eeholmes/quarto-talk-template/blob/main/poster/
+bibliography: references.bib
+bibliographystyle: american-geophysical-union
+format: poster-typst
+---
+
+<!--
+Poster markup (see README.md):
+  ::: {.block title="..."}   a titled box; add .highlight for an accent box
+  ::: {.colbreak}            start the next column
+  ::: {#refs}                where the references go
+  {script="scripts/x.py"}    on a figure, adds a "Code:" link to its caption
+Optional YAML: poster-columns (3), poster-width / poster-height (42in), fontsize (32pt).
+-->
+
+::: {.block .highlight title="Key Points"}
+- Key point one: the single most important finding, in one line.
+- Key point two: what is new about the approach.
+- Key point three: why it matters.
+:::
+
+::: {.block title="Introduction"}
+Two or three sentences on the problem and why it matters, with a citation
+where it helps [@werdell2019pace].
+
+One or two sentences on earlier work [@sauzede2015] and the gap this work fills.
+:::
+
+::: {.block title="Objectives"}
+1. Objective one.
+2. Objective two.
+3. Objective three.
+:::
+
+::: {.colbreak}
+:::
+
+::: {.block title="Data"}
+The data: sources, time span and coverage, in two or three sentences.
+
+- Number of observations and time span.
+- Spatial coverage.
+:::
+
+::: {.block title="Methods"}
+The model or analysis, its inputs and outputs, and how it was evaluated.
+:::
+
+::: {.block title="Results"}
+![Example caption: observed and predicted profiles at three sites (synthetic data).](figures/fig_example_profiles.png){#fig-profiles script="scripts/fig_example_profiles.py" width="100%"}
+
+One or two sentences on what @fig-profiles shows.
+:::
+
+::: {.colbreak}
+:::
+
+::: {.block title="Results (continued)"}
+![Example caption: predicted vs. observed, coloured by depth (synthetic data).](figures/fig_example_scatter.png){#fig-scatter script="scripts/fig_example_scatter.py" width="100%"}
+
+One or two sentences on what @fig-scatter shows.
+:::
+
+::: {.block title="Conclusions"}
+- Conclusion one.
+- Conclusion two.
+:::
+
+::: {.block title="Next Steps"}
+- Next step one.
+- Next step two.
+:::
+
+::: {.block title="References"}
+::: {#refs}
+:::
+:::
+
+::: {.block title="Acknowledgements"}
+Funding, collaborators and data providers.
+:::

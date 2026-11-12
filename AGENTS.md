@@ -2,7 +2,8 @@
 
 Edit `AGENTS.md`, not `CLAUDE.md` (which only contains `@AGENTS.md`).
 
-This repo is Eli Holmes's personal Quarto revealjs talk template. Read
+This repo is Eli Holmes's personal Quarto template for talks (`talk-revealjs`)
+and posters (`poster-typst`). Read
 `claude/handoff.md` first, then `README.md`.
 
 ## Rules for changing the theme
