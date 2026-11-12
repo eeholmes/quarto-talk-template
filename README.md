@@ -202,14 +202,15 @@ and rebuild figures with the matching style: `make figures TALK_THEME=nmfs-talk`
 | `scripts/` | Figure scripts and the `talk_style.py` shim |
 | `figures/` | Output of `scripts/` |
 | `scripts/qr_code.py` | Writes `figures/qr-repo.svg` from the deck's `repo:` |
-| `skills/science-talk/SKILL.md` | Guide for coding agents: from abstract, notes and notebooks to a finished deck |
+| `skills/science-talk/SKILL.md` | Guide for coding agents: from abstract, notes and notebooks to a finished deck or poster |
 | `.github/workflows/publish.yml` | Renders the deck and the poster on every PR (with a link check and a self-contained build) and publishes both to GitHub Pages on push to `main` |
 
 ## Agents
 
 `skills/science-talk/SKILL.md` describes how a coding agent should build a talk
-with this theme: brief, evidence ledger, spine, figure plan, draft, render and
-inspect the PDF. It is written to be installed as a Claude Code / Antigravity
+or a poster with these formats: decide which it is, brief, evidence ledger,
+story (a spine of beats for a talk; a main message and block plan for a
+poster), figure plan, draft, render and inspect the PDF. It is written to be installed as a Claude Code / Antigravity
 skill, and agents working in a talk repo can be pointed at it directly.
 
 ## Reuse and citation
