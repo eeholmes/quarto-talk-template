@@ -1,4 +1,4 @@
-# Render the slides on every pull request (a check that the theme still
+# Render the slides and the example poster on every pull request (a check that the theme still
 # builds), and publish them to GitHub Pages on push to main.
 # One-time setup: Settings → Pages → Source: "GitHub Actions".
 # Figures are committed, so this only needs Quarto (no Python).
@@ -41,6 +41,10 @@ jobs:
           print(f"{len(refs)} local references; missing: {missing}")
           sys.exit(1 if missing else 0)
           PY
+      - name: Render the example poster (Typst, bundled with Quarto)
+        run: |
+          quarto render poster/poster.qmd
+          cp poster/poster.pdf _site/poster.pdf
       - name: Self-contained build
         run: quarto render template.qmd -M embed-resources:true -M self-contained-math:true -o standalone-check.html
       - uses: actions/upload-pages-artifact@v3

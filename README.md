@@ -1,12 +1,17 @@
 # quarto-talk-template
 
-A Quarto revealjs theme for science talks: clean, modern, neutral. Slides are
-plain Markdown, every figure is made by a script, and the look lives in one
-file so a talk can switch to a branded variant
-([nmfs-opensci/quarto-talk-template](https://github.com/nmfs-opensci/quarto-talk-template),
-planned) by changing one line.
+Quarto formats for science talks and posters. Content is plain Markdown,
+every figure is made by a script, and the look lives in the extension.
 
-**See it:** render `template.qmd`, or the published copy once Pages is on.
+- **`talk-revealjs`**: slides. Clean, modern, neutral; the look lives in one
+  file so a talk can switch to a branded variant
+  ([nmfs-opensci/quarto-talk-template](https://github.com/nmfs-opensci/quarto-talk-template),
+  planned) by changing one line. Example: `template.qmd`.
+- **`poster-typst`**: a large-format PDF poster (42 × 42 in by default), via
+  Typst, so no LaTeX. Example: `poster/poster.qmd`.
+
+**See them:** <https://eeholmes.github.io/quarto-talk-template/> (slides) and
+<https://eeholmes.github.io/quarto-talk-template/poster.pdf> (poster).
 
 ## Start a talk
 
@@ -22,12 +27,16 @@ figure scripts and the Makefile.
 A repo that already exists, e.g. one with several talks:
 
 ```bash
-quarto add eeholmes/quarto-talk-template      # installs _extensions/eeholmes/talk/
+quarto add eeholmes/quarto-talk-template      # installs _extensions/eeholmes/talk/ and .../poster/
 ```
 
 then copy `scripts/talk_style.py` (the figure-style shim) next to your figure
-scripts and put `format: talk-revealjs` in each deck. Run the same command
-again to update the theme.
+scripts and put `format: talk-revealjs` in each deck (`format: poster-typst`
+for a poster). Run the same command again to update both formats.
+
+Decks or posters in subfolders need a `_quarto.yml` at the top of the repo
+(any project file will do; see this repo's), because Quarto looks for
+`_extensions/` beside the document or at the project root.
 
 ## Build
 
@@ -103,6 +112,51 @@ Authors and `affiliations` use Quarto's normal author schema and are numbered
 automatically. The QR code image is made by `scripts/qr_code.py` (run by
 `make figures`) from `repo:`.
 
+## Posters
+
+`poster/` is a complete example: `poster.qmd`, one script per figure in
+`poster/scripts/`, and its own `Makefile` and `requirements.txt`.
+
+```bash
+cd poster
+make            # run the figure scripts (incl. the QR code), then render poster.pdf
+make poster     # render only
+```
+
+Write the poster in blocks that flow down columns:
+
+```markdown
+::: {.block title="Methods"}
+Text, lists, citations [@key], and figures go inside a block.
+:::
+
+::: {.block .highlight title="Key Points"}
+An accent-coloured block.
+:::
+
+::: {.colbreak}
+:::
+
+::: {.block title="References"}
+::: {#refs}
+:::
+:::
+```
+
+- A block never splits across columns; `::: {.colbreak}` starts the next one.
+- `![Caption.](figures/fig_x.png){#fig-x script="scripts/fig_x.py" width="100%"}`
+  adds "Code: scripts/fig_x.py" to the caption, linked through `code-base-url`.
+- Draw figures at printed size so their fonts match: one column of the default
+  poster is 11.8 in wide (`COLUMN_WIDTH_IN` in `poster/scripts/poster_style.py`).
+  Poster text is 32 pt; figure labels about 22–28 pt.
+- YAML beyond Quarto's own: `qr` (an image) and `qr-caption` for the header
+  (`scripts/qr_code.py` makes `figures/qr_code.svg` from `qr-url:`),
+  `poster-footer`, `poster-columns` (3), `poster-width` / `poster-height`
+  (42in), `fontsize` (32pt), `bibliographystyle` (a Typst/CSL style name).
+- Colours are at the top of `_extensions/poster/typst-template.typ`. The poster
+  uses Roboto, bundled in the extension; it does not yet share the talk's
+  `brand.scss`.
+
 ## Figures
 
 Each figure has its own script in `scripts/` that writes a PNG to `figures/`.
@@ -142,11 +196,14 @@ and rebuild figures with the matching style: `make figures TALK_THEME=nmfs-talk`
 | `_extensions/talk/title-slide.html` | Title-slide layout |
 | `_extensions/talk/talk_style.py` | Matplotlib style matched to `brand.scss` |
 | `_extensions/talk/talk-fonts/`, `mpl-fonts/` | Inter, Source Serif 4 and JetBrains Mono (SIL OFL 1.1, licences included), bundled so talks look the same offline |
+| `_quarto.yml` | Makes the repo a Quarto project, so `poster/` (and talk folders) find `_extensions/` |
+| `_extensions/poster/` | The poster format: Typst layout (`typst-template.typ`), YAML mapping (`typst-show.typ`), the block/colbreak/caption filter (`poster.lua`), Roboto (Apache-2.0) |
+| `poster/` | Example poster with its figure scripts, Makefile and references |
 | `scripts/` | Figure scripts and the `talk_style.py` shim |
 | `figures/` | Output of `scripts/` |
 | `scripts/qr_code.py` | Writes `figures/qr-repo.svg` from the deck's `repo:` |
 | `skills/science-talk/SKILL.md` | Guide for coding agents: from abstract, notes and notebooks to a finished deck |
-| `.github/workflows/publish.yml` | Renders the deck on every PR (with a link check and a self-contained build) and publishes to GitHub Pages on push to `main` |
+| `.github/workflows/publish.yml` | Renders the deck and the poster on every PR (with a link check and a self-contained build) and publishes both to GitHub Pages on push to `main` |
 
 ## Agents
 
@@ -160,5 +217,7 @@ skill, and agents working in a talk repo can be pointed at it directly.
 Template code is dedicated to the public domain under CC0 1.0 (see `LICENSE`);
 use it however you like, no credit needed. The bundled fonts (Inter, Source Serif 4,
 JetBrains Mono) are under the SIL Open Font License 1.1
-(`_extensions/talk/talk-fonts/*-OFL.txt`). `skills/science-talk/SKILL.md`
+(`_extensions/talk/talk-fonts/*-OFL.txt`); Roboto 2.138 is under Apache 2.0
+(`_extensions/poster/fonts/`). The poster format comes from the AGU26 poster in
+[fish-pace/2026-go-bgc-hackweek](https://github.com/fish-pace/2026-go-bgc-hackweek). `skills/science-talk/SKILL.md`
 adapts parts of [alfredo-hs/quarto-talks](https://github.com/alfredo-hs/quarto-talks) (MIT).

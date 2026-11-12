@@ -70,3 +70,34 @@
 - **Font names must stay quoted** in the CSS variables (`inspect()` in
   `talk.scss`): Sass drops the quotes and an unquoted `Source Serif 4 Display`
   is invalid CSS, so the serif silently fell back to sans.
+
+## Poster format (added 2026-11-12, from fish-pace/2026-go-bgc-hackweek)
+
+Eli asked for the AGU26 poster setup to live here, so one repo holds both
+formats. The extension was copied unchanged from `poster/_extensions/poster/` in
+the hackweek repo (MIT, Eli's); the hackweek repo itself was left alone (its
+poster is due 10 Dec 2026). The example `poster/poster.qmd` is the hackweek one
+with the CHLA-Z text replaced by placeholders.
+
+- **Quarto → Typst**, not LaTeX: plain text to a print-ready PDF. 42 × 42 in by
+  default (AGU max is 44 × 44 and boards are shared).
+- **Figure scripts are a separate step** (`make figures`), not `pre-render`,
+  because real ones are slow; figures are committed, `poster.pdf` is not.
+- **Roboto 2.138 is bundled in the extension** with `font-paths: [fonts]` in
+  `_extension.yml` (Quarto resolves it relative to the extension). With system
+  fonts, Typst on the hub chose Roboto *Condensed* for "Roboto". This Roboto
+  version is Apache-2.0, not OFL — check the name table before swapping files.
+- **`_quarto.yml` at the repo root is required**: Quarto looks for `_extensions/`
+  only beside the document or at the project root, so `poster/poster.qmd`
+  failed with "Unable to read the extension 'poster'" until the repo became a
+  project. The render list is `**/*.qmd` (not file names) so it survives
+  `quarto use template` renaming `template.qmd`.
+- `poster.lua` runs `at: pre-ast`; later, Quarto has replaced `#fig-` figures
+  with its own node type and the "Code:" caption link silently vanishes.
+- `poster.lua` passes `qr:` to Typst as raw text, because pandoc otherwise
+  escapes `qr_code.svg` to `qr\_code.svg`.
+- `biblio.typ` is empty on purpose: references go where `::: {#refs}` is.
+- Affiliations in YAML must be `- ref: <id>`; a bare `[noaa, uw]` creates new
+  affiliations named "noaa" and "uw".
+- Not yet done: the poster does not share `brand.scss` (its colours are at the
+  top of `typst-template.typ`), and there is no NMFS-branded poster.

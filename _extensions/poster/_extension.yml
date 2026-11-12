@@ -1,0 +1,17 @@
+title: Poster
+author: Eli Holmes
+version: 0.1.0
+quarto-required: ">=1.5.0"
+contributes:
+  formats:
+    typst:
+      # Roboto 2.138 (Apache-2.0) is bundled so the poster looks the same anywhere;
+      # with system fonts, Typst on the hub picked Roboto *Condensed* for "Roboto".
+      font-paths: [fonts]
+      template-partials:
+        - typst-template.typ
+        - typst-show.typ
+        - biblio.typ
+      filters:
+        - path: poster.lua
+          at: pre-ast

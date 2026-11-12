@@ -1,0 +1,7 @@
+# Makes this folder a Quarto project, so documents in subfolders (poster/,
+# or one folder per talk) use the formats in the top-level _extensions/.
+# `quarto render` with no file renders every deck and poster listed here.
+project:
+  type: default
+  render:
+    - "**/*.qmd"
