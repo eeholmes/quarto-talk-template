@@ -1,0 +1,5 @@
+# Python packages for the figure scripts in scripts/.
+# Rendering the slides needs only Quarto (>= 1.6); see README.md.
+matplotlib>=3.8
+numpy>=1.26
+segno>=1.6

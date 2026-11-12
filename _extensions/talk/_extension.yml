@@ -1,0 +1,45 @@
+title: Talk
+author: Eli Holmes
+version: 0.1.0
+quarto-required: ">=1.6.0"
+contributes:
+  formats:
+    revealjs:
+      # Look: brand.scss holds every colour and font (the only file a branded
+      # variant replaces); talk.scss holds layout and is shared across variants.
+      theme: [brand.scss, talk.scss]
+      include-in-header: fonts.html
+      format-resources:
+        - talk-fonts
+      template-partials:
+        - title-slide.html
+      filters:
+        - path: talk.lua
+          at: pre-ast
+      # Dark slide background. Must match $talk-section-bg in brand.scss
+      # (reveal needs it as a slide attribute so it also prints to PDF).
+      talk-dark-bg: "#0F1C26"
+      # 16:9 at a size where 1 CSS px ≈ 1 px on a 1600-wide projector.
+      width: 1600
+      height: 900
+      margin: 0.05
+      center: false
+      transition: none
+      background-transition: none
+      slide-number: c/t
+      show-slide-number: all
+      hash: true
+      controls: false
+      progress: true
+      menu:
+        side: left
+      preview-links: auto
+      code-line-numbers: false
+      # KaTeX, not MathJax: it can be embedded, so `make standalone` works offline.
+      html-math-method: katex
+      highlight-style: a11y
+      fig-align: center
+      fig-cap-location: bottom
+      link-external-newwindow: true
+      mermaid:
+        theme: neutral

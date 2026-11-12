@@ -1,0 +1,60 @@
+# Render the slides on every pull request (a check that the theme still
+# builds), and publish them to GitHub Pages on push to main.
+# One-time setup: Settings → Pages → Source: "GitHub Actions".
+# Figures are committed, so this only needs Quarto (no Python).
+name: Render and publish slides
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.7.34
+      - name: Render
+        run: quarto render template.qmd --output index.html --output-dir _site
+      - name: Check every local link and image in the output exists
+        run: |
+          python3 - <<'PY'
+          import os, re, sys
+          os.chdir("_site")
+          html = open("index.html").read()
+          refs = set(re.findall(r'(?:src|href|data-src)="([^"#:?]+)"', html))
+          refs |= set(re.findall(r'url\("([^"]+)"\)', html))
+          missing = sorted(r for r in refs if not os.path.exists(r))
+          print(f"{len(refs)} local references; missing: {missing}")
+          sys.exit(1 if missing else 0)
+          PY
+      - name: Self-contained build
+        run: quarto render template.qmd -M embed-resources:true -M self-contained-math:true -o standalone-check.html
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

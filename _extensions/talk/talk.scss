@@ -1,0 +1,400 @@
+/*-- scss:rules --*/
+
+// ---------------------------------------------------------------------------
+// talk.scss — layout and components. Uses only the $talk-* variables from
+// brand.scss; keep this file identical across branded variants.
+// ---------------------------------------------------------------------------
+
+// Heading face is a CSS variable so a deck can pick it in YAML
+// (`headings: serif` / `headings: sans`, applied by talk.lua).
+:root {
+  --talk-font-heading-sans: #{inspect($talk-font-heading-sans)};
+  --talk-font-heading-serif: #{inspect($talk-font-heading-serif)};
+  @if $talk-headings-default == serif {
+    --talk-font-heading: var(--talk-font-heading-serif);
+    --talk-heading-tracking: 0em;
+  } @else {
+    --talk-font-heading: var(--talk-font-heading-sans);
+    --talk-heading-tracking: -0.02em;
+  }
+}
+
+.reveal {
+  font-feature-settings: "cv11", "ss01";  // Inter: straight-sided 1, open digits
+  -webkit-font-smoothing: antialiased;
+}
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: var(--talk-font-heading);
+  letter-spacing: var(--talk-heading-tracking);
+}
+
+// ---- Slide titles ---------------------------------------------------------
+.reveal .slides section > h2 {
+  margin: 0 0 0.6em 0;
+  padding-top: 0.35em;
+  position: relative;
+}
+.reveal .slides section > h2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 72px;
+  height: 6px;
+  border-radius: 3px;
+  background: $talk-accent;
+}
+.reveal h3 { color: $talk-ink-soft; font-weight: 600; }
+
+// ---- Body text ------------------------------------------------------------
+.reveal .slides section {
+  text-align: left;
+}
+.reveal ul, .reveal ol {
+  display: block;
+  margin-left: 1.1em;
+}
+.reveal li { margin: 0.25em 0; }
+.reveal li::marker { color: $talk-accent; }
+.reveal strong { font-weight: 600; }
+.reveal a { text-decoration: underline; text-decoration-thickness: 0.06em; text-underline-offset: 0.15em; }
+.reveal a:hover { text-decoration-thickness: 0.12em; }
+
+.reveal .lead    { font-size: 1.25em; line-height: 1.35; }
+.reveal .small   { font-size: 0.75em; }
+.reveal .smaller { font-size: 0.62em; }
+.reveal .muted   { color: $talk-muted; }
+.reveal .accent  { color: $talk-accent; font-weight: 600; }
+.reveal .hl      { color: $talk-highlight; font-weight: 600; }
+
+// Citation line pinned to the bottom of a slide: ::: {.refs} ... :::
+.reveal .refs {
+  position: absolute;
+  bottom: 0.4em;
+  left: 0;
+  right: 0;
+  font-size: 0.5em;
+  color: $talk-muted;
+}
+
+// ---- Take-away box: ::: {.takeaway} ... ::: --------------------------------
+.reveal .takeaway {
+  margin: 0.8em 0;
+  padding: 0.6em 0.9em;
+  border-left: 8px solid $talk-accent;
+  background: $talk-accent-soft;
+  border-radius: 0 10px 10px 0;
+  font-size: 1.05em;
+  font-weight: 500;
+}
+.reveal .takeaway p { margin: 0; }
+
+// ---- Big numbers: ::: {.stats} [42%]{.stat} label ... ::: ------------------
+.reveal .stats {
+  display: flex;
+  gap: 2.5em;
+  margin: 1em 0;
+}
+.reveal .stats > p {
+  flex: 1;
+  margin: 0;
+  color: $talk-ink-soft;
+  font-size: 0.8em;
+  line-height: 1.3;
+}
+.reveal .stat {
+  display: block;
+  font-family: var(--talk-font-heading);
+  font-weight: 600;
+  font-size: 3.2em;
+  line-height: 1.05;
+  letter-spacing: var(--talk-heading-tracking);
+  color: $talk-accent;
+  margin-bottom: 0.1em;
+  font-variant-numeric: lining-nums;
+}
+
+// ---- Sparse slides, vertically centred --------------------------------------
+//   ## The claim, in one sentence {.statement}      supporting line optional
+//   ## A question the talk will answer? {.question}
+//   ## Optional title {.quote}  > quotation  [Source]{.quote-source}
+//   ## Optional title {.math}   $$ ... $$
+.reveal .slides section.statement,
+.reveal .slides section.question,
+.reveal .slides section.quote,
+.reveal .slides section.math {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  box-sizing: border-box;
+  padding-bottom: 1.5em;
+}
+.reveal .slides section.statement > h2,
+.reveal .slides section.question > h2 {
+  font-size: 1.95em;
+  line-height: 1.15;
+  max-width: 24ch;
+  margin-bottom: 0.4em;
+}
+.reveal .slides section.statement > p,
+.reveal .slides section.question > p {
+  font-size: 1em;
+  color: $talk-ink-soft;
+  max-width: 48ch;
+}
+// Question: a small label in place of the accent bar
+.reveal .slides section.question > h2::before {
+  content: "Question";
+  position: static;
+  display: block;
+  width: auto;
+  height: auto;
+  background: none;
+  margin-bottom: 0.6em;
+  font-family: $talk-font-text;
+  font-size: 0.32em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $talk-accent;
+}
+.reveal .slides section.question > h2 { padding-top: 0; }
+
+// Quote
+.reveal .slides section.quote > h2 { font-size: 1em; color: $talk-ink-soft; }
+.reveal .slides section.quote blockquote {
+  width: auto;
+  max-width: 34ch;
+  margin: 0;
+  padding: 0 0 0 0.8em;
+  border-left: 8px solid $talk-accent;
+  box-shadow: none;
+  background: none;
+  font-family: var(--talk-font-heading);
+  font-size: 1.55em;
+  font-style: normal;
+  line-height: 1.3;
+  color: $talk-ink;
+}
+.reveal .slides section.quote blockquote p { margin: 0; }
+.reveal .quote-source {
+  display: block;
+  margin-top: 1em;
+  padding-left: 1.6em;
+  font-size: 0.75em;
+  color: $talk-muted;
+}
+
+// Math: one equation, centred and large
+.reveal .slides section.math .math.display,
+.reveal .slides section.math mjx-container[display="true"],
+.reveal .slides section.math .MathJax_Display,
+.reveal .slides section.math .katex-display {
+  font-size: 1.45em;
+  margin: 0.6em 0;
+}
+.reveal .slides section.math > p { text-align: center; }
+.reveal .slides section.math > h2 { align-self: flex-start; }
+
+// ---- Visual: one figure as the slide's evidence ## Title {.visual} -------------
+.reveal .slides section.visual .quarto-figure,
+.reveal .slides section.visual figure { margin: 0; text-align: center; }
+.reveal .slides section.visual img {
+  display: block;
+  margin: 0 auto;
+  height: 620px;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+}
+.reveal .slides section.visual figcaption { text-align: center; }
+
+// ---- Code: a short excerpt shown large ## Title {.code} ------------------------
+.reveal .slides section.code pre { font-size: 0.85em; }
+.reveal .slides section.code pre code { max-height: 620px; padding: 0.7em 0.9em; }
+
+// ---- Figures ---------------------------------------------------------------
+.reveal .quarto-figure figcaption,
+.reveal figcaption,
+.reveal .figure-caption {
+  font-size: 0.55em;
+  color: $talk-ink-soft;
+  margin-top: 0.4em;
+  text-align: left;
+}
+.reveal .talk-code { color: $talk-muted; white-space: nowrap; }
+.reveal .talk-code code { font-size: 0.95em; background: none; padding: 0; color: inherit; }
+
+// ---- Tables -----------------------------------------------------------------
+.reveal table {
+  font-size: 0.75em;
+  border-collapse: collapse;
+  margin-left: 0;
+  font-variant-numeric: tabular-nums;
+}
+.reveal table th {
+  font-weight: 600;
+  border-bottom: 2px solid $talk-ink;
+}
+.reveal table td { border-bottom: 1px solid $talk-rule; }
+.reveal table th, .reveal table td { padding: 0.35em 0.8em; }
+
+// ---- Code ------------------------------------------------------------------
+.reveal pre {
+  box-shadow: none;
+  border-radius: 10px;
+}
+.reveal pre code { border-radius: 10px; }
+.reveal code { font-variant-ligatures: none; }
+.reveal p code, .reveal li code {
+  font-size: 0.85em;
+  padding: 0.08em 0.3em;
+  border-radius: 6px;
+  background: $talk-wash;
+}
+
+// ---- Callouts: flatter than Quarto's default ------------------------------------
+.reveal div.callout {
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+// ---- Title slide ------------------------------------------------------------------
+#title-slide.talk-title {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1.6em 0 1em 0;
+  text-align: left;
+}
+#title-slide .talk-title-main { margin-top: auto; margin-bottom: auto; }
+#title-slide .talk-kicker {
+  font-size: 0.6em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $talk-accent;
+  margin: 0 0 0.8em 0;
+}
+#title-slide .title {
+  font-family: var(--talk-font-heading);
+  font-size: 2.35em;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: var(--talk-heading-tracking);
+  max-width: 24ch;
+  margin: 0;
+  padding-bottom: 0.45em;
+  position: relative;
+}
+#title-slide .title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 120px;
+  height: 8px;
+  border-radius: 4px;
+  background: $talk-accent;
+}
+#title-slide .subtitle {
+  font-size: 1.05em;
+  font-weight: 400;
+  color: $talk-ink-soft;
+  max-width: 52ch;
+  margin-top: 0.7em;
+}
+#title-slide .talk-title-meta {
+  border-top: 1px solid $talk-rule;
+  padding-top: 0.8em;
+  font-size: 0.7em;
+}
+#title-slide .talk-authors { font-weight: 600; font-size: 1.1em; }
+#title-slide .talk-author:not(:last-child)::after { content: " · "; color: $talk-muted; font-weight: 400; }
+#title-slide .talk-authors sup, #title-slide .talk-affiliations sup { font-size: 0.6em; color: $talk-accent; margin-left: 0.1em; }
+#title-slide .talk-affiliations { color: $talk-ink-soft; margin-top: 0.25em; }
+#title-slide .talk-affiliation { margin-right: 1.2em; }
+#title-slide .talk-event { color: $talk-muted; margin: 0.6em 0 0 0; }
+#title-slide .talk-event span:not(:last-child)::after { content: "  ·  "; white-space: pre; }
+#title-slide .talk-url { margin: 0.2em 0 0 0; }
+#title-slide .talk-url a { color: $talk-accent; text-decoration: none; font-weight: 500; }
+
+// ---- Dark slides: section dividers (# heading) and ## {.dark} ----------------------
+// The background colour itself is set per slide by talk.lua (talk-dark-bg).
+.reveal-viewport.talk-dark .reveal .slide-number,
+.reveal-viewport.talk-dark .reveal .footer { color: rgba($talk-section-ink, 0.55); }
+.reveal-viewport.talk-dark .reveal .progress { color: $talk-section-rule; }
+
+.reveal .slides section.talk-section {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+.reveal .slides section.talk-section > h1 {
+  color: $talk-section-ink;
+  font-size: 2.2em;
+  font-weight: 600;
+  max-width: 20ch;
+  padding-top: 0.5em;
+  position: relative;
+}
+.reveal .slides section.talk-section > h1::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 96px;
+  height: 8px;
+  border-radius: 4px;
+  background: $talk-section-rule;
+}
+.reveal .slides section.talk-section > p { color: rgba($talk-section-ink, 0.75); font-size: 0.9em; }
+
+// Content slides marked {.dark}
+.reveal .slides section.dark,
+.reveal .slides section.dark h2,
+.reveal .slides section.dark h3 { color: $talk-section-ink; }
+.reveal .slides section.dark h2::before { background: $talk-section-rule; }
+.reveal .slides section.dark a { color: $talk-section-rule; }
+.reveal .slides section.dark .muted { color: rgba($talk-section-ink, 0.6); }
+.reveal .slides section.dark .takeaway { background: rgba($talk-section-ink, 0.08); border-left-color: $talk-section-rule; }
+.reveal .slides section.dark .stat { color: $talk-section-rule; }
+
+// ---- Chrome: footer, slide number, progress ---------------------------------------
+.reveal .footer { font-size: 0.42em; color: $talk-muted; }
+.reveal .slide-number { font-family: $talk-font-text; font-size: 0.42em !important; color: $talk-muted; background: transparent !important; }
+.reveal .slide-number a { color: inherit; text-decoration: none; }
+// Title slide: no footer or slide number (set by talk.lua via data-state)
+.reveal-viewport.talk-titlepage .reveal .footer,
+.reveal-viewport.talk-titlepage .reveal .slide-number,
+.reveal-viewport.talk-titlepage .reveal .slide-menu-button { display: none !important; }
+.reveal .progress { color: $talk-accent; height: 4px; }
+
+// ---- QR code block: ::: {.qr} ::: (filled in by talk.lua from repo:) ---------------
+.reveal .qr {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.55em;
+}
+.reveal .qr img.qr-img {
+  width: 300px;
+  height: 300px;
+  margin: 0;
+  padding: 12px;
+  background: #FFFFFF;
+  border-radius: 12px;
+}
+.reveal .qr a { text-decoration: none; font-weight: 500; }
+// On a closing slide, put it on the right: ## Thank you {.dark .closing}
+.reveal .slides section.closing .qr {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}

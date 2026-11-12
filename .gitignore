@@ -1,0 +1,16 @@
+# Rendered output (published by GitHub Actions, not committed).
+# Anchored to the top folder so the theme's own HTML partials and fonts
+# under _extensions/ are not ignored.
+/*.html
+/*_files/
+/talk-fonts/
+/_site/
+/.quarto/
+/*.pdf
+
+# Python
+__pycache__/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/

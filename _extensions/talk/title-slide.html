@@ -1,0 +1,29 @@
+<section id="$idprefix$title-slide"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$ class="quarto-title-block talk-title">
+  <div class="talk-title-main">
+$if(kicker)$
+    <p class="talk-kicker">$kicker$</p>
+$endif$
+    <h1 class="title">$title$</h1>
+$if(subtitle)$
+    <p class="subtitle">$subtitle$</p>
+$endif$
+  </div>
+  <div class="talk-title-meta">
+    <div class="talk-authors">
+$for(by-author)$
+      <span class="talk-author">$if(by-author.url)$<a href="$by-author.url$">$endif$$by-author.name.literal$$if(by-author.url)$</a>$endif$$if(by-author.affiliations)$<sup>$for(by-author.affiliations)$$it.number$$sep$,$endfor$</sup>$endif$</span>$sep$
+$endfor$
+    </div>
+$if(by-affiliation)$
+    <div class="talk-affiliations">
+$for(by-affiliation)$
+      <span class="talk-affiliation"><sup>$it.number$</sup>$it.name$</span>
+$endfor$
+    </div>
+$endif$
+    <p class="talk-event">$if(event)$<span>$event$</span>$endif$$if(date)$<span>$date$</span>$endif$</p>
+$if(talk-url)$
+    <p class="talk-url"><a href="https://$talk-url$">$talk-url$</a></p>
+$endif$
+  </div>
+</section>
