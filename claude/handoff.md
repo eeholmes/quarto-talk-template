@@ -1,6 +1,7 @@
 # Handoff: quarto-talk-template
 
-Eli's personal Quarto revealjs talk theme (neutral, modern, science). Design
+Eli's personal Quarto templates: talk slides (`talk-revealjs`, neutral, modern,
+science) and, from PR #3, posters (`poster-typst`, Typst, from the AGU26 poster). Design
 decisions, and the traps behind odd-looking code, are in
 `claude/notes/design.md` — read it before changing the theme.
 
@@ -19,6 +20,9 @@ decisions, and the traps behind odd-looking code, are in
 - `skills/science-talk/SKILL.md` is installed on the hub through
   `~/claude-config/common/skills.txt` (bootstrap links it from this checkout,
   so keep the checkout on `main`).
+- Poster format (PR #3): example in `poster/`; the repo root `_quarto.yml` is
+  what lets subfolder documents find `_extensions/`. Poster does not yet
+  share `brand.scss`.
 - Not checked: the Mermaid slide (hub Chromium 91 is too old); Eli to look in
   a real browser.
 
